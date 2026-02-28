@@ -25,104 +25,180 @@ theme_choice = st.sidebar.toggle("🌙 Dark Mode")
 st.session_state.theme = "dark" if theme_choice else "light"
 # ---------------- THEME CSS ----------------
 
-if st.session_state.theme == "dark":
-    st.markdown("""
-<style>
-/* General font for both modes */
-body, .stApp, .stMarkdown {
-    font-family: 'Segoe UI', sans-serif;
+font_css = """
+@import url('https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800&display=swap');
+
+html, body, [class*="css"]  {
+    font-family: 'Outfit', sans-serif !important;
 }
 
-/* Cards */
-.card {
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
-    transition: all 0.25s ease;
+/* Base gradients and styles */
+:root {
+    --primary-gradient: linear-gradient(135deg, #6366f1 0%, #a855f7 50%, #ec4899 100%);
 }
 
-/* Card hover effect */
-.card:hover {
-    transform: translateY(-6px) scale(1.02);
-    box-shadow:0 12px 24px rgba(0,0,0,0.18);
-}
-
-/* Small text inside cards */
-.small {
-    font-size:14px;
-    font-weight:500;
-}
-
-/* Metric number inside cards */
-.metric {
-    font-size:28px;
-    font-weight:700;
-}
-
-/* Dark mode */
-body[data-theme="dark"] .stApp, .dark-theme {
-    background-color: #0f172a !important;
-    color: #e5e7eb !important;
-}
-body[data-theme="dark"] .card, .dark-theme .card {
-    background-color: #1e293b !important;
-    color: #e5e7eb !important;
-}
-
-/* Light mode */
-body[data-theme="light"] .stApp, .light-theme {
-    background-color: #f9fafb !important;
-    color: #111827 !important;
-}
-body[data-theme="light"] .card, .light-theme .card {
-    background-color: white !important;
-    color: #111827 !important;
-}
-</style>
-""", unsafe_allow_html=True)
-
-
-else:
-    st.markdown("""
-    <style>
-    .stApp {
-        background-color: #f9fafb;
-        color: #111827;
-    }
-    .card {
-        background-color: white;
-        color: black;
-    }
-    </style>
-    """, unsafe_allow_html=True)
-
-# ---------------- CUSTOM CSS ----------------
-st.markdown("""
-<style>
 .main-title {
-    font-size:42px;
-    font-weight:700;
-    background: linear-gradient(90deg,#4f46e5,#06b6d4);
-    -webkit-background-clip:text;
-    -webkit-text-fill-color:transparent;
+    font-size: 3.5rem;
+    font-weight: 800;
+    line-height: 1.2;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    margin-bottom: 0.5rem;
+    animation: glowFade 2s ease-in-out infinite alternate;
 }
-.card {
-    padding:20px;
-    border-radius:16px;
-    box-shadow:0 4px 12px rgba(0,0,0,0.12);
-    background:white;
-    transition: all 0.25s ease;
-}
-.metric {
-    font-size:28px;
-    font-weight:700;
-}
+
 .small {
-    color:gray;
-    font-size:14px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    opacity: 0.7;
+    margin-bottom: 8px;
 }
-</style>
-""", unsafe_allow_html=True)
+
+.metric {
+    font-size: 2.8rem;
+    font-weight: 800;
+    background: var(--primary-gradient);
+    -webkit-background-clip: text;
+    -webkit-text-fill-color: transparent;
+    display: inline-block;
+}
+
+/* Animations */
+@keyframes fadeUp {
+    0% { opacity: 0; transform: translateY(30px); }
+    100% { opacity: 1; transform: translateY(0); }
+}
+
+@keyframes glowFade {
+    0% { text-shadow: 0 0 10px rgba(99, 102, 241, 0.1); }
+    100% { text-shadow: 0 0 20px rgba(99, 102, 241, 0.3), 0 0 30px rgba(236, 72, 153, 0.2); }
+}
+
+/* Buttons */
+button[kind="primary"] {
+    background: var(--primary-gradient) !important;
+    border: none !important;
+    box-shadow: 0 4px 15px rgba(99, 102, 241, 0.4) !important;
+    transition: all 0.3s ease !important;
+}
+button[kind="primary"]:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 20px rgba(99, 102, 241, 0.6) !important;
+}
+
+/* Fix tabs */
+[data-baseweb="tab-list"] {
+    gap: 20px;
+}
+button[data-baseweb="tab"] {
+    background: transparent !important;
+    border: none !important;
+    font-family: 'Outfit', sans-serif !important;
+    font-weight: 600 !important;
+}
+"""
+
+if st.session_state.theme == "dark":
+    theme_css = """
+    .stApp {
+        background-color: #0f172a !important;
+        background-image: 
+            radial-gradient(at 0% 0%, hsla(253,16%,7%,1) 0, transparent 50%), 
+            radial-gradient(at 50% 0%, hsla(225,39%,30%,0.2) 0, transparent 50%), 
+            radial-gradient(at 100% 0%, hsla(339,49%,30%,0.2) 0, transparent 50%);
+        color: #f8fafc !important;
+    }
+    
+    .card {
+        padding: 24px;
+        border-radius: 20px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(30, 41, 59, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.1);
+        box-shadow: 0 8px 32px 0 rgba(0, 0, 0, 0.3);
+        color: #f8fafc;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeUp 0.6s ease-out forwards;
+    }
+    
+    .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(255, 255, 255, 0.2);
+        box-shadow: 0 15px 35px rgba(0,0,0,0.4), 0 0 20px rgba(99, 102, 241, 0.3);
+    }
+
+    section[data-testid="stSidebar"] {
+        background-color: rgba(15, 23, 42, 0.8) !important;
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(255,255,255,0.1);
+    }
+    
+    div[data-baseweb="input"] {
+        border-radius: 10px !important;
+        background: rgba(255,255,255,0.05) !important;
+        border: 1px solid rgba(255,255,255,0.1) !important;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+    div[data-baseweb="input"]:focus-within {
+        border-color: #a855f7 !important;
+        box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+    }
+    """
+else:
+    theme_css = """
+    .stApp {
+        background-color: #f3f4f6 !important;
+        background-image: 
+            radial-gradient(at 0% 0%, hsla(253,16%,97%,1) 0, transparent 50%), 
+            radial-gradient(at 50% 0%, hsla(225,100%,89%,1) 0, transparent 50%), 
+            radial-gradient(at 100% 0%, hsla(339,100%,89%,1) 0, transparent 50%);
+        color: #1f2937 !important;
+    }
+    
+    .card {
+        padding: 24px;
+        border-radius: 20px;
+        backdrop-filter: blur(16px);
+        -webkit-backdrop-filter: blur(16px);
+        background: rgba(255, 255, 255, 0.7);
+        border: 1px solid rgba(255, 255, 255, 0.5);
+        box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.1);
+        color: #1f2937;
+        transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+        animation: fadeUp 0.6s ease-out forwards;
+    }
+
+    .card:hover {
+        transform: translateY(-8px) scale(1.02);
+        border-color: rgba(255, 255, 255, 0.8);
+        box-shadow: 0 15px 35px rgba(31, 38, 135, 0.2), 0 0 20px rgba(99, 102, 241, 0.2);
+    }
+
+    section[data-testid="stSidebar"] {
+        background: rgba(255, 255, 255, 0.8) !important;
+        backdrop-filter: blur(20px);
+        border-right: 1px solid rgba(0,0,0,0.05);
+    }
+    
+    div[data-baseweb="input"] {
+        border-radius: 10px !important;
+        background: rgba(255,255,255,0.7) !important;
+        border: 1px solid rgba(0,0,0,0.1) !important;
+        backdrop-filter: blur(5px);
+        transition: all 0.3s ease;
+    }
+    div[data-baseweb="input"]:focus-within {
+        border-color: #a855f7 !important;
+        box-shadow: 0 0 0 2px rgba(168, 85, 247, 0.2) !important;
+    }
+    """
+
+st.markdown(f"<style>{font_css}{theme_css}</style>", unsafe_allow_html=True)
 
 # ---------------- DB ----------------
 conn = sqlite3.connect("users.db", check_same_thread=False)
@@ -231,31 +307,11 @@ if menu == "Dashboard" and st.session_state.user:
     plt.style.use(chart_style)
     #****************************************
     tab1,tab2,tab3 = st.tabs(
-        ["📊 Analytics","🤖 Prediction","📜 History"]
+        ["🤖 Prediction","📜 History","📊 Analytics"]
     )
-    # -------- ANALYTICS TAB --------
-    with tab1:
-        c1,c2 = st.columns(2)
-
-        with c1:
-            st.subheader("Study Hours vs Score")
-            fig = plt.figure()
-            plt.scatter(data.StudyHours, data.Score)
-            plt.xlabel("Study Hours")
-            plt.ylabel("Score")
-            st.pyplot(fig)
-
-        with c2:
-            st.subheader("Attendance Distribution")
-            fig2 = plt.figure()
-            plt.hist(data.Attendance, bins=20)
-            st.pyplot(fig2)
-
-        st.subheader("Correlation Matrix")
-        st.dataframe(data.corr())
-
+    
     # -------- PREDICTION TAB --------
-    with tab2:
+    with tab1:
         st.subheader("Enter Student Inputs")
 
         c1,c2 = st.columns(2)
@@ -267,6 +323,14 @@ if menu == "Dashboard" and st.session_state.user:
         if st.button("🚀 Predict Score"):
             inp = pd.DataFrame([[study,attendance,assignments,previous]],columns=features)
             pred = model.predict(inp)[0]
+            
+            # Ensure predicted score stays within 0-100 bounds
+            pred = min(100.0, max(0.0, pred))
+            
+            # Save prediction to history table
+            c.execute("INSERT INTO history VALUES (?,?,?,?,?,?)", 
+                      (st.session_state.user, study, attendance, assignments, previous, pred))
+            conn.commit()
 
             st.markdown(
                 f'<div class="card"><div class="small">Predicted Score</div>'
@@ -288,13 +352,34 @@ if menu == "Dashboard" and st.session_state.user:
                 st.warning("Needs Improvement Zone")    
 
     # -------- HISTORY TAB --------
-    with tab3:
+    with tab2:
         st.subheader("Prediction History")
         df = pd.read_sql_query(
             "SELECT * FROM history WHERE u=?",
             conn,
             params=(st.session_state.user,))
         st.dataframe(df)
+
+    # -------- ANALYTICS TAB --------
+    with tab3:
+        c1,c2 = st.columns(2)
+
+        with c1:
+            st.subheader("Study Hours vs Score")
+            fig = plt.figure()
+            plt.scatter(data.StudyHours, data.Score)
+            plt.xlabel("Study Hours")
+            plt.ylabel("Score")
+            st.pyplot(fig)
+
+        with c2:
+            st.subheader("Attendance Distribution")
+            fig2 = plt.figure()
+            plt.hist(data.Attendance, bins=20)
+            st.pyplot(fig2)
+
+        st.subheader("Correlation Matrix")
+        st.dataframe(data.corr())
 
 elif menu == "Dashboard":
     st.warning("Please login first")
