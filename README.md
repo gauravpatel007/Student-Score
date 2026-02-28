@@ -10,3 +10,5 @@ A machine learning web application built with **Streamlit** that predicts studen
 1. Clone the repo: `git clone https://github.com/gauravpatel007/Student-Score.git`
 2. Install dependencies: `pip install -r requirements.txt`
 3. Run the app: `streamlit run app.py`
+   
+## LINK : https://student-score-hmrkkb4vgvvbl2k5d6zeq2.streamlit.app/
