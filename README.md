@@ -12,3 +12,4 @@ A machine learning web application built with **Streamlit** that predicts studen
 3. Run the app: `streamlit run app.py`
    
 ## LINK : https://student-score-hmrkkb4vgvvbl2k5d6zeq2.streamlit.app/
+THIS is just a trial link 
